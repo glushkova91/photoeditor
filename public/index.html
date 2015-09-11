@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie6"><![endif]-->
+<!--[if IE 7]><html class="ie7"><![endif]-->
+<!--[if IE 8]><html class="ie8"><![endif]-->
+<!--[if gt IE 8]><html><![endif]-->
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="/css/style.css">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script data-main="/js/global" src="/js/require.js"></script>
+		<script src="/js/custom.js"></script>
+		<title>HTML Page</title>
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<div class="website">
+				<div class="photoedit-wrap">
+					<canvas id="canvas"></canvas>
+					<div class="crop-controls hidden not-active"> <span class="crop-controls__do"></span> <span class="crop-controls__cancel"></span> </div>
+				</div>
+				<form class="control-panel">
+					<button class="control-panel__crop-on">Включить кроп</button>
+					<!--<button class="control-panel__crop">Кропнуть</button>-->
+					<br>
+					<button class="control-panel__brightness">Яркость +100</button>
+					<button class="control-panel__contrast">Контрастность +100</button>
+					<br>
+					<button class="control-panel__rotate">Повернуть на 90 градусов</button>
+					<button class="control-panel__back">Откатить изменения</button>
+					<br>
+					<button class="control-panel__open">Открыть картинку в новой вкладке</button>
+					<button class="control-panel__change">Изменить картинку</button>
+					<br>
+					<button class="control-panel__resize">Приблизить картинку</button>
+					<button class="control-panel__resize-back">Вернуть приближение</button>
+					<!--input#file-load(type="file")-->
+				</form>
+			</div>
+		</div>
+		<!--<script>-->
+		<!--requirejs(['/js/global.js'], function()-->
+		<!--{-->
+		<!--requirejs(['pages/index']);-->
+		<!--});-->
+		<!--</script>-->
+	</body>
+
+</html>
