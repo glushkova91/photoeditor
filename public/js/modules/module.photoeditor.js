@@ -184,7 +184,7 @@ define(
 						_private.methods.changeCropCustom();
 					},
 					cropResize: function (moveX, moveY, targetMove) {
-						console.log('cropResize');
+
 						var target = _private.objects.startTarget;
 						var cropCoords = _private.props.cropCoords;
 						var cropStart = _private.props.cropStart;
@@ -360,7 +360,7 @@ define(
 
 					},
 					moveResize: function(moveX, moveY){
-						console.log('moveResize');
+
 						var image = _private.objects.image;
 						var cropStart = _private.props.cropStart;
 						var deltaX = cropStart.X - moveX;
@@ -727,7 +727,6 @@ define(
 				resize: function(k){
 					if(k < 1) return false;
 
-					_private.props.resize = true;
 					_private.props.coeff = k;
 
 					var ctx = _private.objects.ctx;
@@ -735,11 +734,14 @@ define(
 					var width = _private.props.canvasSize.width;
 					var height = _private.props.canvasSize.height;
 
-					if(_private.props.changesWithPixels){
+					if(_private.props.changesWithPixels && !_private.props.resize){
 						image.src = ctx.canvas.toDataURL();
 						width = image.width;
 						height = image.height;
 					}
+
+					_private.props.resize = true;
+
 					_private.methods.clearCanvas();
 					_private.objects.ctx.drawImage(image,  (-1)*width*(k-1)/2, (-1)*height*(k-1)/2, width*k, height*k);
 
