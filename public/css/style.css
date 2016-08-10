@@ -57,10 +57,12 @@ body { font-family: 'PT Sans', sans-serif; min-width: 320px; }
 
 .crop-controls__do, .crop-controls__cancel { width: 24px; height: 24px; display: inline-block; cursor: pointer; }
 
-.crop-controls__do { background: url(/img/success.png) no-repeat; background-size: 100% auto; margin-right: 12px; }
+.crop-controls__do { background: url(../img/success.png) no-repeat; background-size: 100% auto; margin-right: 12px; }
 
-.crop-controls__cancel { background: url(/img/cancel.png) no-repeat; background-size: 100% auto; }
+.crop-controls__cancel { background: url(../img/cancel.png) no-repeat; background-size: 100% auto; }
 
 .crop-controls { position: absolute; bottom: 0; background-color: #356D6C; padding: 5px; border: 1px solid #87959E; }
 .crop-controls.not-active { opacity: 0.4; }
 .crop-controls.not-active:after { content: ""; display: block; position: absolute; width: 100%; height: 100%; z-index: 2; top: 0; left: 0; }
+
+/*# sourceMappingURL=style.css.map */

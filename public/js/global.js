@@ -1,5 +1,5 @@
 requirejs.config({
-	"baseUrl": "/js",
+	"baseUrl": "./js",
 	"paths": {
 		"jquery": "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min"
 	}
@@ -16,8 +16,8 @@ $(function () {
 				//wrap: '.photoedit-wrap',
 				canvas: '#canvas',
 				//loadButton: '#file-load',
-				//image: '/img/kWGfHQXmJFA.jpg',
-				image: '/img/R8qhDpIfH4Q.jpg',
+				//image: './img/kWGfHQXmJFA.jpg',
+				image: './img/R8qhDpIfH4Q.jpg',
 				//cropStartAuto: true,
 				width: 500,
 				height: 500,
@@ -64,7 +64,7 @@ $(function () {
 			});
 			$('.control-panel__change').on('click', function (e) {
 				e.preventDefault();
-				Ph.changeImage('/img/kWGfHQXmJFA.jpg');
+				Ph.changeImage('./img/kWGfHQXmJFA.jpg');
 			});
 			$('.control-panel__rotate').on('click', function (e) {
 				e.preventDefault();

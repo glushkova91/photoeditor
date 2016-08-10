@@ -51,8 +51,15 @@ define(
 						});
 					},
 					clearCanvas: function () {
+						var width, height;
 
-						_private.objects.ctx.clearRect(0, 0, _private.props.canvasSize.width, _private.props.canvasSize.height);
+						width = ((_private.props.rotateAngle / 90) % 2 !== 0) ?
+							_private.props.canvasSize.height : _private.props.canvasSize.width;
+						height = ((_private.props.rotateAngle / 90) % 2 !== 0) ?
+							_private.props.canvasSize.width : _private.props.canvasSize.height;
+
+						_private.objects.ctx.clearRect(_private.props.rotateStartCoords.x, _private.props.rotateStartCoords.y,
+							width, height);
 					},
 					getImageData: function (image) {
 
@@ -508,6 +515,11 @@ define(
 							cropHandle[side].css({marginBottom: (marginBottom + Math.random() * 0.1)});
 
 						}
+					},
+					reset: function(){
+						_private.props.resize = false;
+						_private.props.rotateStartCoords.y = _private.props.rotateStartCoords.x = 0;
+						_private.props.rotateAngle = 0;
 					}
 					//getPixels: function () {
 					//
@@ -529,7 +541,13 @@ define(
 						top:0,
 						left:0
 					},
-					coeff: 1
+					coeff: 1,
+					rotate: false,
+					rotateStartCoords: {
+						x: 0,
+						y: 0
+					},
+					rotateAngle: 0
 				}
 			};
 
@@ -545,7 +563,6 @@ define(
 					_private.props.typeImage = args.type || 'image/png';
 					_private.props.cropStartAuto = args.cropStartAuto || false;
 					_private.methods.createCropAction = args.createCropAction || null;
-
 					_private.objects.ctx = _private.objects.canvas[0].getContext("2d");
 
 					_private.methods.loadImageToCanvas();
@@ -596,6 +613,7 @@ define(
 
 					$(_private.objects.canvas).parent().find('.cropper-wrap').remove();
 					_private.props.cropSize = _private.props.cropCoords = _private.props.cropStart = {};
+					_private.methods.reset();
 				},
 				cropAction: function () {
 					var ctx = _private.objects.ctx;
@@ -605,12 +623,6 @@ define(
 					var k = img.width / (_private.props.canvasSize.width * _private.props.coeff);
 					var data;
 					var imw = cropSize.width, imh = cropSize.height, imx = cropCoords.left, imy = cropCoords.top;
-
-					console.log(cropCoords);
-					console.log(imw, 'imw');
-					console.log(imh, 'imh');
-					console.log(imx, 'imx');
-					console.log(imy, 'imy');
 
 					if(_private.props.changesWithPixels){
 						img.src = ctx.canvas.toDataURL();
@@ -647,11 +659,11 @@ define(
 
 						ctx.drawImage(img, 0, 0, data.width, data.height);
 
-						_private.methods.setCropArea();
+						//_private.methods.setCropArea();
 
 						$(img).off("load");
 					});
-					_private.props.resize = false;
+					_private.methods.reset();
 				},
 				rotate: function (angle) {
 					var angleRad = angle * Math.PI / 180;
@@ -662,11 +674,14 @@ define(
 					if (((angle / 90) % 2 !== 0)) {
 
 						data = _private.methods.calculateSizes(image.height, image.width, (image.height / image.width));
+
 					} else {
-
 						data = _private.props.canvasSize;
-
 					}
+					_private.props.rotate = (angle % 360 !== 0);
+					_private.props.rotateAngle = angle;
+					_private.props.rotateStartCoords.y = _private.props.rotateStartCoords.x = 0;
+
 					cw = data.width;
 					ch = data.height;
 
@@ -674,23 +689,29 @@ define(
 						case 90:
 							cw = data.height;
 							ch = data.width;
-							cy = data.width * (-1);
+							cy = _private.props.rotateStartCoords.y = data.width * (-1);
+							//_private.props.rotateStartCoords.y = data.height * (-1);
 							break;
 						case 180:
 							cx = data.width * (-1);
 							cy = data.height * (-1);
+							_private.props.rotateStartCoords.y = data.height * (-1);
+							_private.props.rotateStartCoords.x = data.width * (-1);
 							break;
 						case 270:
+						case -90:
 							cw = data.height;
 							ch = data.width;
 							cx = data.height * (-1);
+							_private.props.rotateStartCoords.x = data.height * (-1);
 							break;
 					}
 
 					_private.methods.clearCanvas();
 					ctx.rotate(angleRad);
 					ctx.drawImage(image, cx, cy, cw, ch);
-					_private.methods.setCropArea();
+					image.src = ctx.canvas.toDataURL();
+					//_private.methods.setCropArea();
 				},
 				brightFilter: function(filter){
 					var ctx = _private.objects.ctx;
@@ -743,6 +764,10 @@ define(
 					_private.props.resize = true;
 
 					_private.methods.clearCanvas();
+					ctx.beginPath();
+					//width = ((_private.props.rotateAngle / 90) % 2 !== 0) ? height : width;
+					//height = ((_private.props.rotateAngle / 90) % 2 !== 0) ? width : height;
+					ctx.rotate( (-1)*_private.props.rotateAngle* Math.PI / 180);
 					_private.objects.ctx.drawImage(image,  (-1)*width*(k-1)/2, (-1)*height*(k-1)/2, width*k, height*k);
 
 					_private.props.resizeOffset.top = (-1)*_private.props.canvasSize.height*(k-1)/2;
